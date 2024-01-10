@@ -286,8 +286,12 @@ class Field:
                     area[n] &= ~(1 << pid)
                     chk(x - 1, y)
                     chk(x + 1, y)
+                    chk(x - 1, y - 1)
                     chk(x, y - 1)
+                    chk(x + 1, y - 1)
+                    chk(x - 1, y + 1)
                     chk(x, y + 1)
+                    chk(x + 1, y + 1)
 
                 chk(0, 0)
 
