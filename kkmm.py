@@ -1,3 +1,4 @@
+import math
 from typing import List, Tuple, Optional
 
 
@@ -250,10 +251,60 @@ class Field:
         return True
 
     def fill_area(self):
-        # フィールドのエリア計算や壁の設定など、ゲームのルールに応じて実装
-        # この部分はゲームのロジックに大きく依存するため、具体的な実装は省略します。
-        # TODO: implement
-        pass
+        w, h = self.width, self.height
+        extended_field = [
+            {"type": Field.AREA, "player": None} for _ in range((w + 2) * (h + 2))
+        ]
+
+        # 外側に空白のマスを追加
+        for y in range(-1, h + 1):
+            for x in range(-1, w + 1):
+                if x < 0 or x >= w or y < 0 or y >= h:
+                    continue
+                extended_field[(x + 1) + (y + 1) * (w + 2)] = self.tiles[x + y * w]
+
+        mask = [1] * len(extended_field)
+
+        while sum(mask):
+            area = [0] * len(extended_field)
+            for pid in range(self.n_player):
+                for i in range(len(extended_field)):
+                    area[i] |= 1 << pid
+
+                def chk(x, y):
+                    n = x + y * (w + 2)
+                    if x < 0 or x >= w + 2 or y < 0 or y >= h + 2:
+                        return
+                    if area[n] & (1 << pid) == 0:
+                        return
+                    if (
+                        mask[n] != 0
+                        and extended_field[n]["type"] == Field.WALL
+                        and extended_field[n]["player"] == pid
+                    ):
+                        return
+                    area[n] &= ~(1 << pid)
+                    chk(x - 1, y)
+                    chk(x + 1, y)
+                    chk(x, y - 1)
+                    chk(x, y + 1)
+
+                chk(0, 0)
+
+            for i in range(len(extended_field)):
+                if area[i] == 0:
+                    mask[i] = 0
+                elif area[i] & (area[i] - 1) == 0:  # 2のべき乗かどうかをチェック
+                    extended_field[i]["player"] = int(math.log2(area[i]))
+                    mask[i] = 0
+
+        # 結果を元のフィールドに反映
+        for i in range(w):
+            for j in range(h):
+                n = i + j * w
+                nexp = (i + 1) + (j + 1) * (w + 2)
+                if self.tiles[n]["type"] != Field.WALL:
+                    self.tiles[n] = extended_field[nexp]
 
     def get_points(self) -> List[Point]:
         points = []
