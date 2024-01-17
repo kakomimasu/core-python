@@ -1,4 +1,4 @@
-from ..kkmm import Game, Player, Action, Board
+from kakomimasu_py import Game, Player, Action, Board
 
 # def test_2d_array(obj, prev_key="", prev_value=None):
 #     if not isinstance(obj, dict):
@@ -21,7 +21,7 @@ def test_two_dimensional_array_check():
     total_turn = 10
     board = Board(width, height, points, n_agent, total_turn=total_turn)
 
-    game = Game(total_turn, width, height, points, n_agent, 2)
+    game = Game(board)
     p1 = Player("test1")
     p2 = Player("test2")
     game.attach_player(p1)

@@ -1,4 +1,4 @@
-from ..kkmm import Game, Player, Action, Board
+from kakomimasu_py import Game, Player, Action, Board
 import random
 import pytest
 
@@ -51,4 +51,3 @@ def test_random():
 
         game.next_turn()
         check_agent()
-

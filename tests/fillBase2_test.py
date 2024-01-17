@@ -1,4 +1,4 @@
-from ..kkmm import Field, Board
+from kakomimasu_py import Field, Board
 
 
 def test_fill2():

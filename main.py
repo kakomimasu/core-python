@@ -1,5 +1,26 @@
 from typing import List
-from kkmm import Game, Player, Action  # 仮のモジュール名を game_module としています
+from kakomimasu_py import Game, Board, Player, Action  # 仮のモジュール名を game_module としています
+
+
+def print_tiles(game: Game):
+    width = game.field.width
+    height = game.field.height
+    tiles = game.field.tiles
+
+    for i in range(height):
+        s = ""
+        for j in range(width):
+            tile = tiles[i * width + j]
+            if tile["player"] is None:
+                s = s + "x"
+            else:
+                char = chr(ord("A") + tile["player"])
+                if tile["type"] == 0:
+                    char = char.lower()
+                s = s + char
+            # print(tiles[i * width + j], end=" ")
+        print(f"|{s}|")
+
 
 # ボードの設定
 width = 8
@@ -16,7 +37,8 @@ board = {
 }
 
 # ゲームとプレイヤーの初期化
-game = Game(total_turn, width, height, points, n_agent, 2)  # Playerの数は2としています
+board = Board(width, height, points, n_agent, 2, 30)
+game = Game(board)
 p1 = Player("test1")
 p2 = Player("test2")
 game.attach_player(p1)
@@ -40,4 +62,4 @@ while True:
         break
 
 # ゲーム状態の出力
-print(game.field.tiles)
+print_tiles(game)

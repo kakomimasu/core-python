@@ -1,4 +1,4 @@
-from ..kkmm import Player
+from kakomimasu_py import Player
 import pytest
 
 

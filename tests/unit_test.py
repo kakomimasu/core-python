@@ -1,4 +1,4 @@
-from ..kkmm import Game, Player, Action, Board, Field
+from kakomimasu_py import Game, Player, Action, Board, Field
 import pytest
 
 
