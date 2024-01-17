@@ -140,7 +140,9 @@ class Agent:
         return True
 
     def isValidAction(self) -> Optional[Action]:
-        if not self._last_action or self._last_action.res != Action.SUCCESS:
+        if self._last_action is None:
+            return None
+        if self._last_action.res != Action.SUCCESS:
             return None
         return self._last_action
 

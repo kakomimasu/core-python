@@ -1,4 +1,4 @@
-from kkmm import Field, Board
+from ..kkmm import Field, Board
 import pytest
 
 

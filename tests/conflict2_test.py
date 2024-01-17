@@ -1,4 +1,4 @@
-from kkmm import Game, Player, Action, Board
+from ..kkmm import Game, Player, Action, Board
 from .util import tos
 
 
